@@ -6,15 +6,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class WebhookController {
 
-    // ✅ Updated path here
+    // For Meta verification
     @GetMapping("/webhook")
     public ResponseEntity<String> verifyWebhook(
             @RequestParam(name = "hub.mode") String mode,
             @RequestParam(name = "hub.verify_token") String token,
             @RequestParam(name = "hub.challenge") String challenge) {
 
-        String VERIFY_TOKEN = "my_verify_token"; // Must match Meta token
-
+        String VERIFY_TOKEN = "your_verify_token"; // Replace this
         if ("subscribe".equals(mode) && VERIFY_TOKEN.equals(token)) {
             return ResponseEntity.ok(challenge);
         } else {
@@ -22,10 +21,10 @@ public class WebhookController {
         }
     }
 
-    // ✅ Updated POST path too
+    // For incoming WhatsApp messages
     @PostMapping("/webhook")
     public ResponseEntity<String> receiveWebhook(@RequestBody String payload) {
-        System.out.println("Incoming Webhook Payload: " + payload);
+        System.out.println("Received: " + payload);
         return ResponseEntity.ok("EVENT_RECEIVED");
     }
 }
